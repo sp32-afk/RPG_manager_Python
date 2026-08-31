@@ -1,15 +1,31 @@
 from flask import Blueprint, render_template
 from models.personaje import Personaje
+from flask import request, redirect, url_for
 
 personaje_bp = Blueprint('personaje', __name__)
 
-# Datos en memoria (Taverna)
-personajes = [
+# Datos en memoria 
+lista_de_personajes = [
     Personaje("Atreuz", "Guerrero", 23, 100),
     Personaje("Muad'Dib", "Profeta", 56, 100)
 ]
 
-@personaje_bp.route('/personajes')
-def listar_personajes():
-    # El controlador recibe los datos del modelo y se los pasa a la Vista
-    return render_template('personajes.html', lista_personajes=personajes)
+@personaje_bp.route('/personajes', methods=['GET', 'POST'])
+def personajes():
+        if request.method == 'POST':
+            # Extrae los datos que vienen del HTML
+            nombre = request.form.get('nombre')
+            clase = request.form.get('clase')
+            nivel = int(request.form.get('nivel'))
+
+            # Instancia y guarda el nuevo personaje en la lista del modelo
+            nuevo_personaje = Personaje(nombre, clase, nivel, 100)
+
+            lista_de_personajes.append(nuevo_personaje)
+        
+            # Redirige a la misma ruta para actualizar la pantalla
+            return redirect(url_for('personaje.personajes'))
+        
+            # Si es GET (al cargar la pagina por primera vez):
+        return render_template('personajes.html', lista_personajes=lista_de_personajes)
+

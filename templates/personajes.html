@@ -6,12 +6,41 @@
 </head>
 <body>
     <h1>Personajes en la Taberna</h1>
-
-    <!-- 
-      AQUÍ VA TU TABLA O LISTA HTML:
-      Usa el bucle {% for personaje in lista_personajes %} 
-      para mostrar cada personaje (personaje.nombre, personaje.clase, etc.)
-    -->
-
+        <table>
+            <thead>  
+                <tr>
+                    <th>Nombre</th>
+                    <th>Clase</th>
+                    <th>Nivel</th>
+                    <th>Vida</th>
+                </tr>
+            </thead>
+            <tbody>    
+                {%for personaje in lista_personajes %}
+                    <tr>
+                        <td>{{personaje.nombre}}</td>
+                        <td>{{personaje.clase}}</td>
+                        <td>{{personaje.nivel}}</td>
+                        <td>{{personaje.vida}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            
+        </table>
+    <h2>Registrar nuevo Personaje</h2>
+        <form action="{{ url_for('personaje.personajes')}}" method="POST">
+     <!-- El atributo action en la etiqueta <form> 
+    indica la ruta del servidor hacia donde van los 
+    datos, y method indica la acción HTTP. -->
+	<div>
+		<label for="nombre">Nombre:</label>
+		<input name="nombre" required>
+		<label for="clase">Clase:</label>
+		<input name="clase" required> 
+		<label for="nivel">Nivel:</label>
+		<input name="nivel" required>
+	</div>
+	<button type="submit">CrearPersonaje</button>
+    </form>
 </body>
 </html>
