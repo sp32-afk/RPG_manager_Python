@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template
 from models.personaje import Personaje
 from flask import request, redirect, url_for
+from services.personaje_service import es_valido
 
 personaje_bp = Blueprint('personaje', __name__)
 
@@ -20,6 +21,11 @@ def personajes():
 
             # Instancia y guarda el nuevo personaje en la lista del modelo
             nuevo_personaje = Personaje(nombre, clase, nivel, 100)
+
+            if not es_valido(nombre, clase, nivel):
+                return jsonify({"error": "Datos inválidos"}), 400
+            else:
+                return jsonify({"message": "Datos válidos"}), 200
 
             lista_de_personajes.append(nuevo_personaje)
         
