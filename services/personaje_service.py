@@ -1,5 +1,4 @@
 def es_valido(nombre, clase, nivel) -> bool:
-    nivel = int(nivel)
     if nombre is None or not nombre.strip():
         return False
     clasesPermitidas = ["Guerrero","Mago","Arquero"]
