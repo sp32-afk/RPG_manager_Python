@@ -6,41 +6,51 @@
 </head>
 <body>
     <h1>Personajes en la Taberna</h1>
-        <table>
-            <thead>  
+
+    <!-- Visualización de errores devueltos por el controlador y servicio -->
+    {% if error %}
+        <p style="color: red; font-weight: bold;">{{ error }}</p>
+    {% endif %}
+
+    <table>
+        <thead>  
+            <tr>
+                <th>Nombre</th>
+                <th>Clase</th>
+                <th>Nivel</th>
+                <th>Vida</th>
+            </tr>
+        </thead>
+        <tbody>    
+            {%for personaje in lista_personajes %}
                 <tr>
-                    <th>Nombre</th>
-                    <th>Clase</th>
-                    <th>Nivel</th>
-                    <th>Vida</th>
+                    <td>{{personaje.nombre}}</td>
+                    <td>{{personaje.clase}}</td>
+                    <td>{{personaje.nivel}}</td>
+                    <td>{{personaje.vida}}</td>
                 </tr>
-            </thead>
-            <tbody>    
-                {%for personaje in lista_personajes %}
-                    <tr>
-                        <td>{{personaje.nombre}}</td>
-                        <td>{{personaje.clase}}</td>
-                        <td>{{personaje.nivel}}</td>
-                        <td>{{personaje.vida}}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-            
-        </table>
+            {% endfor %}
+        </tbody>
+    </table>
     <h2>Registrar nuevo Personaje</h2>
-        <form action="{{ url_for('personaje.personajes')}}" method="POST">
-     <!-- El atributo action en la etiqueta <form> 
-    indica la ruta del servidor hacia donde van los 
-    datos, y method indica la acción HTTP. -->
-	<div>
-		<label for="nombre">Nombre:</label>
-		<input name="nombre" required>
-		<label for="clase">Clase:</label>
-		<input name="clase" required> 
-		<label for="nivel">Nivel:</label>
-		<input name="nivel" required>
-	</div>
-	<button type="submit">CrearPersonaje</button>
+    <form action="{{ url_for('personaje.personajes')}}" method="POST">
+     <!-- El atributo action indica la ruta del servidor y method la acción HTTP -->
+        <div>
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+
+            <label for="clase">Clase:</label>
+            <select id="clase" name="clase" required>
+                <option value="" disabled selected>Selecciona una clase</option>
+                <option value="Guerrero">Guerrero</option>
+                <option value="Mago">Mago</option>
+                <option value="Arquero">Arquero</option>
+            </select>
+
+            <label for="nivel">Nivel:</label>
+            <input type="number" id="nivel" name="nivel" min="1" max="100" required>	
+        </div>
+        <button type="submit">Crear Personaje</button>
     </form>
 </body>
 </html>
