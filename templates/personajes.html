@@ -2,55 +2,115 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Taberna - RPG Manager</title>
+    <!-- Bootstrap 5 CSS via CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Estilos Personalizados -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilos/styless.css') }}">
 </head>
 <body>
-    <h1>Personajes en la Taberna</h1>
 
-    <!-- Visualización de errores devueltos por el controlador y servicio -->
+<div class="container main-container">
+    <div class="text-center mb-4">
+        <h1 class="display-4 fw-bold text-danger"> RPG Manager</h1>
+        <p class="lead text-secondary">Gestión de aventureros en la Taberna</p>
+    </div>
+
+    <!-- Mensaje de Error / Alerta -->
     {% if error %}
-        <p style="color: red; font-weight: bold;">{{ error }}</p>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Error:</strong> {{ error }}
+    </div>
     {% endif %}
 
-    <table>
-        <thead>  
-            <tr>
-                <th>Nombre</th>
-                <th>Clase</th>
-                <th>Nivel</th>
-                <th>Vida</th>
-            </tr>
-        </thead>
-        <tbody>    
-            {%for personaje in lista_personajes %}
-                <tr>
-                    <td>{{personaje.nombre}}</td>
-                    <td>{{personaje.clase}}</td>
-                    <td>{{personaje.nivel}}</td>
-                    <td>{{personaje.vida}}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <h2>Registrar nuevo Personaje</h2>
-    <form action="{{ url_for('personaje.personajes')}}" method="POST">
-     <!-- El atributo action indica la ruta del servidor y method la acción HTTP -->
-        <div>
-            <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="nombre" required>
-
-            <label for="clase">Clase:</label>
-            <select id="clase" name="clase" required>
-                <option value="" disabled selected>Selecciona una clase</option>
-                <option value="Guerrero">Guerrero</option>
-                <option value="Mago">Mago</option>
-                <option value="Arquero">Arquero</option>
-            </select>
-
-            <label for="nivel">Nivel:</label>
-            <input type="number" id="nivel" name="nivel" min="1" max="100" required>	
+    <div class="row g-4">
+        <!-- Tabla de Personajes Registrados -->
+        <div class="col-lg-7">
+            <div class="card card-custom h-100">
+                <div class="card-header card-header-custom fs-5">
+                     Personajes en la Taberna
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-dark-custom align-middle text-center mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Clase</th>
+                                    <th>Nivel</th>
+                                    <th>Vida</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for personaje in lista_personajes %}
+                                <tr>
+                                    <td class="fw-semibold">{{ personaje.nombre }}</td>
+                                    <td>
+                                        {% if personaje.clase.capitalize() == 'Guerrero' %}
+                                            <span class="badge badge-guerrero p-2"> Guerrero</span>
+                                        {% elif personaje.clase.capitalize() == 'Mago' %}
+                                            <span class="badge badge-mago p-2"> Mago</span>
+                                        {% elif personaje.clase.capitalize() == 'Arquero' %}
+                                            <span class="badge badge-arquero p-2"> Arquero</span>
+                                        {% else %}
+                                            <span class="badge bg-secondary p-2">{{ personaje.clase }}</span>
+                                        {% endif %}
+                                    </td>
+                                    <td><span class="badge bg-dark border border-secondary fs-6">{{ personaje.nivel }}</span></td>
+                                    <td>
+                                        <div class="progress" style="height: 18px;">
+                                            <div class="progress-bar bg-success" role="progressbar" data-width="{{ personaje.vida }}" aria-valuenow="{{ personaje.vida }}" aria-valuemin="0" aria-valuemax="100">
+                                                {{ personaje.vida }} HP
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
-        <button type="submit">Crear Personaje</button>
-    </form>
+
+        <!-- Formulario de Registro -->
+        <div class="col-lg-5">
+            <div class="card card-custom">
+                <div class="card-header card-header-custom fs-5">
+                     Registrar Nuevo Héroe
+                </div>
+                <div class="card-body">
+                    <form action="{{ url_for('personaje.personajes') }}" method="POST">
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label fw-semibold">Nombre:</label>
+                            <input type="text" class="form-control bg-dark text-light border-secondary" id="nombre" name="nombre" placeholder="Ej. Aragorn" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="clase" class="form-label fw-semibold">Clase:</label>
+                            <select class="form-select bg-dark text-light border-secondary" id="clase" name="clase" required>
+                                <option value="" selected disabled>Selecciona una clase...</option>
+                                <option value="Guerrero">Guerrero</option>
+                                <option value="Mago">Mago</option>
+                                <option value="Arquero">Arquero</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="nivel" class="form-label fw-semibold">Nivel (1 - 100):</label>
+                            <input type="number" class="form-control bg-dark text-light border-secondary" id="nivel" name="nivel" min="1" max="100" placeholder="1" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-custom w-100 py-2">Crear Personaje</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap 5 JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/bootstrap.bundle.min.js"></script>
 </body>
 </html>

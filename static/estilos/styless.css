@@ -1,0 +1,71 @@
+/* Custom styles for RPG Manager */
+
+body {
+    background-color: #1a1a2e;
+    color: #e0e0e0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.main-container {
+    max-width: 900px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.card-custom {
+    background-color: #16213e;
+    border: 1px solid #0f3460;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.card-header-custom {
+    background-color: #0f3460;
+    color: #e94560;
+    font-weight: bold;
+    border-bottom: 1px solid #16213e;
+}
+
+.table-dark-custom {
+    background-color: #1a1a2e;
+    color: #ffffff;
+}
+
+.table-dark-custom th {
+    background-color: #0f3460;
+    color: #e94560;
+    border-color: #16213e;
+}
+
+.table-dark-custom td {
+    border-color: #16213e;
+    vertical-align: middle;
+}
+
+.badge-guerrero {
+    background-color: #d9534f;
+    color: white;
+}
+
+.badge-mago {
+    background-color: #0275d8;
+    color: white;
+}
+
+.badge-arquero {
+    background-color: #5cb85c;
+    color: white;
+}
+
+.btn-custom {
+    background-color: #e94560;
+    color: white;
+    border: none;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.btn-custom:hover {
+    background-color: #c0392b;
+    color: white;
+}
